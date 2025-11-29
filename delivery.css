@@ -1,0 +1,401 @@
+/* === RESET GENERAL === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #ececec;
+    min-height: 100vh;
+}
+
+/* === MENÚ SUPERIOR === */
+.menu {
+    width: 100%;
+    background: #222;
+    padding: 12px 20px;
+    display: flex;
+    gap: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* === CONTENEDOR GENERAL === */
+.container {
+    display: flex;
+    gap: 30px;
+    padding: 110px 20px 20px 20px; /* deja espacio para el menú */
+}
+
+/* === TARJETA DEL FORMULARIO === */
+.form-card {
+    width: 400px; /* antes 320px */
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.form-card h1 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+/* === INPUTS Y SELECTS === */
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #444;
+}
+
+input, select {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+}
+
+/* === BOTÓN === */
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background: #2868d8;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #1e52ab;
+}
+
+/* === COLUMNAS POR DELIVERY === */
+.columnas {
+    display: flex;
+    gap: 35px;
+    flex-wrap: wrap; /* para que en pantallas chicas se acomoden */
+    align-items: flex-start; /* importante para que las columnas se alineen al top */
+}
+
+/* === COLUMNA INDIVIDUAL === */
+.columna {
+    width: 360px; /* antes 260px */
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column; /* permite que el contenido apile correctamente */
+}
+
+.columna h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.columna p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* === ITEM DE ENVÍO === */
+.envio-item {
+    background: #f5f5f5;
+    border-left: 5px solid #2868d8;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    position: relative; /* NECESARIO para que el botón se posicione dentro */
+}
+
+.btn-borrar {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    width: 26px;
+    height: 26px;
+    background: #d83c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-borrar:hover {
+    background: #a82f2f;
+}
+
+.envio-item button {
+    background: #d83c3c;
+    border: none;
+    color: white;
+    padding: 5px 7px;
+    margin-top: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.envio-item button:hover {
+    background: #a82f2f;
+}
+
+/* === BOTONES DE TIPO DE ENVÍO === */
+.tipo-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-tipo {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.eliminarDelivery {
+    background-color: #d63031;
+    margin-top: 10px;
+}
+
+.btn-masdelivery {
+    background: #00bfff; /* celeste */
+    height: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.btn-masdelivery:hover {
+    background: #009fd4;
+}
+
+.btn-peya {
+    background: #e74c3c; /* rojo */
+    height: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.btn-peya:hover {
+    background: #c0392b;
+}
+
+.btn-vuelto {
+    background: #777474; /* gris */
+    height: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.btn-vuelto:hover {
+    background: #383a39;
+}
+
+/* === ENTREGADOS === */
+.entregados {
+    margin-top: 10px;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* espacio entre items entregados */
+}
+
+/* === BOTÓN TOGGLE === */
+.btn-toggle {
+    margin-top: 8px;
+    background: #444;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-start; /* fuerza que quede al inicio horizontalmente */
+}
+
+.btn-toggle:hover {
+    background: #222;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .columnas {
+        justify-content: center;
+    }
+}
+
+/* === BOTÓN BORRAR TOTAL === */
+.btn-borrar-total {
+    position: fixed;
+    width: 200px;
+    right: 20px;
+    bottom: 20px;
+    background: #d63031;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: 0.2s;
+}
+
+.btn-borrar-total:hover {
+    background: #b32222;
+    transform: scale(1.05);
+}
+
+/* === MODAL === */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+#modal-ok {
+    background: #4CAF50;
+    color: white;
+}
+
+#modal-ok:hover {
+    background: #45a049;
+}
+
+#modal-cancel {
+    background: #d63031;
+    color: white;
+}
+
+#modal-cancel:hover {
+    background: #b32222;
+}
+
+#modal-input {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* === BOTONES DE ESTADO === */
+.btn-estado {
+    background: orange;
+    color: white;
+    padding: 5px 10px;
+    margin-top: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-estado-entregado {
+    background: green;
+    color: white;
+    padding: 5px 10px;
+    margin-top: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Quitar flechas de inputs tipo number */
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.totales-container {
+    margin-bottom: 10px;
+}
+
+.totales-container .btn-toggle {
+    margin-top: 5px;
+    width: fit-content;
+}

@@ -1,0 +1,128 @@
+/* --- ESTILO GLOBAL --- */
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    padding-top: 20px;
+}
+
+/* --- MENÚ SUPERIOR --- */
+.menu {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* --- TARJETA PRINCIPAL (PARA INDEX + DELIVERY) --- */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 300px;
+    text-align: center;
+    margin-top: 80px; /* baja la tarjeta para que no tape el menú */
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* --- LABELS E INPUTS --- */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+    text-align: left;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+/* --- RESULTADOS (PÁGINA DEL VUELTO) --- */
+#resultado {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* --- ITEMS DE DELIVERY (CUANDO LISTES REGISTROS) --- */
+.item {
+    background: #eee;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.item button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background: #e74c3c;
+    border: none;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.item button:hover {
+    background: #c0392b;
+}
+
+/* --- QUITAR FLECHAS A INPUT NUMBER --- */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

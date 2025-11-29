@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliverys - Herramientas Rooster</title>
+    <link rel="stylesheet" href="delivery.css">
+    <link rel="icon" type="image/png" href="./images/RoosterBar-1.png">
+</head>
+<body>
+
+<!-- MENÚ SUPERIOR -->
+<nav class="menu">
+    <a href="index.html">🏠 Inicio</a>
+    <a href="delivery.html">🚚 Delivery</a>
+</nav>
+
+<div class="container">
+
+    <!-- === CREAR DELIVERY === -->
+<div class="card form-card">
+    <h1>🚚 Crear Delivery</h1>
+
+    <label>Nombre del delivery:</label>
+    <input id="newDelivery" type="text" placeholder="Ej: Juan" autocomplete="off">
+
+    <label>Sueldo base del día:</label>
+    <input id="newSueldo" type="number" placeholder="Ej: 19000" autocomplete="off">
+
+    <button onclick="crearDelivery()">Crear Delivery</button>
+    <button onclick="eliminarDelivery()" class="eliminarDelivery">Eliminar Delivery</button>
+</div>
+
+    <!-- === COLUMNAS POR DELIVERY (FORMULARIO INCLUIDO) === -->
+    <div id="columnas" class="columnas"></div>
+
+</div>
+
+<script src="delivery.js"></script>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p id="modal-mensaje"></p>
+        <input id="modal-input" type="text" placeholder="Código aquí" style="display:none;">
+        <div class="modal-buttons">
+            <button id="modal-ok">OK</button>
+            <button id="modal-cancel">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<button class="btn-borrar-total" onclick="confirmarBorrado()">🗑 Borrar Todo</button>
+</body>
+</html>

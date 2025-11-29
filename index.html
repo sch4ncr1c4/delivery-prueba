@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora - Heramientas Rooster</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="./images/RoosterBar-1.png">
+</head>
+<body>
+
+    <!-- MENÚ SUPERIOR -->
+    <nav class="menu">
+        <a href="index.html">🏠 Inicio</a>
+        <a href="delivery.html">🚚 Delivery</a>
+    </nav>
+
+    <!-- TARJETA PRINCIPAL -->
+    <div class="card">
+        <h1>Calcular Vuelto 💵 </h1>
+
+        <label>Pagó con:</label>
+        <input id="pago" type="text" placeholder="Ej: 10000">
+
+        <label>Ticket cliente:</label>
+        <input id="precio" type="text" placeholder="Ej: 3500">
+
+        <button onclick="calcularVuelto()">Calcular</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
