@@ -197,6 +197,12 @@ button:hover {
     margin-top: 10px;
 }
 
+.eliminarDelivery:hover {
+    background-color: #8b1414;
+    margin-top: 10px;
+}
+
+
 .btn-masdelivery {
     background: #00bfff; /* celeste */
     height: 40px;
