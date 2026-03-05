@@ -31,9 +31,14 @@ request.onsuccess = function (e) {
     iniciarActualizador();
 };
 
+function obtenerIconoVehiculo(vehiculo) {
+    return vehiculo === "auto" ? "🚗" : "🏍️";
+}
+
 function crearDelivery() {
     const nombre = document.getElementById("newDelivery").value.trim();
     const sueldo = parseInt(document.getElementById("newSueldo").value.trim(), 10);
+    const vehiculo = document.getElementById("newVehiculo").value;
 
     if (!nombre || Number.isNaN(sueldo)) {
         alert("Complete nombre y sueldo.");
@@ -49,6 +54,7 @@ function crearDelivery() {
         store.put({
             nombre,
             sueldo,
+            vehiculo: vehiculo || existente?.vehiculo || "moto",
             x: existente?.x ?? null,
             y: existente?.y ?? null,
             adelanto: existente?.adelanto ?? 0
@@ -58,6 +64,7 @@ function crearDelivery() {
     tx.oncomplete = () => {
         document.getElementById("newDelivery").value = "";
         document.getElementById("newSueldo").value = "";
+        document.getElementById("newVehiculo").value = "moto";
         mostrarColumnas();
     };
 };
@@ -114,6 +121,8 @@ function mostrarColumnas() {
         const deliveries = e.target.result;
 
         deliveries.forEach((del, index) => {
+            const vehiculo = del.vehiculo || "moto";
+            const iconoVehiculo = obtenerIconoVehiculo(vehiculo);
             const col = document.createElement("div");
             col.className = "columna";
             col.dataset.delivery = del.nombre;
@@ -128,7 +137,7 @@ function mostrarColumnas() {
             col.style.zIndex = String(++topZIndex);
 
             col.innerHTML = `
-                <h2>${del.nombre}</h2>
+                <h2>${del.nombre}<span class="vehiculo-icono">${iconoVehiculo}</span></h2>
                 <p><b>Sueldo base:</b> $${del.sueldo.toLocaleString("es-AR")}</p>
 
                 <div class="form-envio">
@@ -253,7 +262,7 @@ function mostrarColumnas() {
                         <p class="linea-total"><b style="color:#ea580c;">Total vuelto:</b> $${totalVuelto.toLocaleString("es-AR")}</p>
                         <p class="linea-total"><b style="color:#7c3aed;">ADELANTO:</b> $${adelanto.toLocaleString("es-AR")}</p>
                         <p class="linea-total"><b style="color:#0f766e;">TOTAL A PAGAR:</b> $${totalAPagar.toLocaleString("es-AR")}</p>
-                        <p class="linea-total"><b style="color:#15803d;">Total del día:</b> $${totalFinal.toLocaleString("es-AR")}</p>                       
+                        <p class="linea-total"><b style="color:#15803d;">Pasar en gastos:</b> $${totalFinal.toLocaleString("es-AR")}</p>                       
                     </div>
                     <hr style="margin:10px 0; border: 0; border-top: 1px solid #dbe7f2;">
                 `);
@@ -449,27 +458,46 @@ function guardarPosicion(nombre, x, y) {
 }
 
 function registrarAdelanto(nombre) {
-    mostrarModal(`Ingrese monto de adelanto para ${nombre}:`, true, (valor) => {
-        const monto = parseInt((valor || "").trim(), 10);
+    const txLectura = db.transaction("deliveries", "readonly");
+    const storeLectura = txLectura.objectStore("deliveries");
+    const reqLectura = storeLectura.get(nombre);
 
-        if (Number.isNaN(monto) || monto <= 0) {
-            mostrarModal("Ingrese un monto valido mayor a 0.");
-            return;
-        }
+    reqLectura.onsuccess = () => {
+        const delivery = reqLectura.result;
+        if (!delivery) return;
 
-        const tx = db.transaction("deliveries", "readwrite");
-        const store = tx.objectStore("deliveries");
-        const req = store.get(nombre);
+        const adelantoActual = delivery.adelanto || 0;
 
-        req.onsuccess = () => {
-            const delivery = req.result;
-            if (!delivery) return;
-            delivery.adelanto = (delivery.adelanto || 0) + monto;
-            store.put(delivery);
-        };
+        mostrarModal(
+            `Ingrese monto de adelanto para ${nombre}:`,
+            true,
+            (valor) => {
+                const monto = parseInt((valor || "").trim(), 10);
 
-        tx.oncomplete = () => mostrarColumnas();
-    });
+                if (Number.isNaN(monto) || monto < 0) {
+                    mostrarModal("Ingrese un monto valido (0 o mayor).");
+                    return;
+                }
+
+                const tx = db.transaction("deliveries", "readwrite");
+                const store = tx.objectStore("deliveries");
+                const req = store.get(nombre);
+
+                req.onsuccess = () => {
+                    const deliveryEditado = req.result;
+                    if (!deliveryEditado) return;
+                    deliveryEditado.adelanto = monto;
+                    store.put(deliveryEditado);
+                };
+
+                tx.oncomplete = () => mostrarColumnas();
+            },
+            {
+                placeholder: "Adelanto aqui",
+                valorInicial: String(adelantoActual)
+            }
+        );
+    };
 }
 
 function cambiarEstado(id, nuevoEstado) {
@@ -559,18 +587,26 @@ function eliminarDelivery() {
     });
 }
 
-function mostrarModal(mensaje, mostrarInput = false, callbackOK = null) {
+function mostrarModal(mensaje, mostrarInput = false, callbackOK = null, opcionesInput = {}) {
     const modal = document.getElementById("modal");
     const mensajeElem = document.getElementById("modal-mensaje");
     const input = document.getElementById("modal-input");
     const btnOK = document.getElementById("modal-ok");
     const btnCancel = document.getElementById("modal-cancel");
+    const placeholder = opcionesInput.placeholder || "Adelanto aqui";
+    const valorInicial = opcionesInput.valorInicial || "";
 
     mensajeElem.textContent = mensaje;
     input.style.display = mostrarInput ? "block" : "none";
-    input.value = "";
+    input.placeholder = placeholder;
+    input.value = mostrarInput ? valorInicial : "";
 
     modal.style.display = "flex";
+
+    if (mostrarInput) {
+        input.focus();
+        input.select();
+    }
 
     btnOK.onclick = () => {
         modal.style.display = "none";
@@ -580,6 +616,12 @@ function mostrarModal(mensaje, mostrarInput = false, callbackOK = null) {
     btnCancel.onclick = () => {
         modal.style.display = "none";
     };
+}
+
+function cerrarTodosLosModales() {
+    document.querySelectorAll(".modal").forEach((modal) => {
+        modal.style.display = "none";
+    });
 }
 
 function borrarTodo() {
@@ -624,3 +666,8 @@ function confirmarBorrado() {
         () => borrarTodo()
     );
 }
+
+document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    cerrarTodosLosModales();
+});

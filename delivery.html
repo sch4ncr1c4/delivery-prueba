@@ -28,6 +28,12 @@
         <label>Sueldo base del dia:</label>
         <input id="newSueldo" type="number" placeholder="Ej: 19000" autocomplete="off">
 
+        <label>Vehiculo:</label>
+        <select id="newVehiculo">
+            <option value="moto">Moto</option>
+            <option value="auto">Auto</option>
+        </select>
+
         <button onclick="crearDelivery()">Crear Delivery</button>
         <button onclick="eliminarDelivery()" class="eliminarDelivery">Eliminar Delivery</button>
         <button id="btn-bloqueo-mov" class="btn-bloqueo" onclick="toggleBloqueoMovimiento()"></button>
@@ -42,7 +48,7 @@
 <div id="modal" class="modal">
     <div class="modal-content">
         <p id="modal-mensaje"></p>
-        <input id="modal-input" type="text" placeholder="Codigo aqui" style="display:none;">
+        <input id="modal-input" type="text" placeholder="Adelanto aqui" style="display:none;">
         <div class="modal-buttons">
             <button id="modal-ok">OK</button>
             <button id="modal-cancel">Cancelar</button>
@@ -50,6 +56,11 @@
     </div>
 </div>
 
-<button class="btn-borrar-total" onclick="confirmarBorrado()">Borrar Todo</button>
+<button
+    class="btn-borrar-total"
+    onclick="confirmarBorrado()"
+    aria-label="Borrar todo"
+    title="Borrar todo"
+>🗑</button>
 </body>
 </html>
