@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliverys - Herramientas Rooster</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="delivery.css">
+    <link rel="icon" type="image/png" href="./images/logo-rooster.png">
+</head>
+<body>
+
+<nav class="menu">
+    <span class="brand"><img src="./images/logo-rooster.png" alt=""></span>
+    <a href="delivery.html">Panel de deliveries</a>
+</nav>
+
+<div class="container">
+
+    <div class="card form-card">
+        <h1>Crear Delivery</h1>
+
+        <label>Nombre del delivery:</label>
+        <input id="newDelivery" type="text" placeholder="Ej: Juan" autocomplete="off">
+
+        <label>Sueldo base del dia:</label>
+        <input id="newSueldo" type="number" placeholder="Ej: 19000" autocomplete="off">
+
+        <button onclick="crearDelivery()">Crear Delivery</button>
+        <button onclick="eliminarDelivery()" class="eliminarDelivery">Eliminar Delivery</button>
+        <button id="btn-bloqueo-mov" class="btn-bloqueo" onclick="toggleBloqueoMovimiento()"></button>
+    </div>
+
+    <div id="columnas" class="columnas"></div>
+
+</div>
+
+<script src="delivery.js"></script>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p id="modal-mensaje"></p>
+        <input id="modal-input" type="text" placeholder="Codigo aqui" style="display:none;">
+        <div class="modal-buttons">
+            <button id="modal-ok">OK</button>
+            <button id="modal-cancel">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<button class="btn-borrar-total" onclick="confirmarBorrado()">Borrar Todo</button>
+</body>
+</html>
