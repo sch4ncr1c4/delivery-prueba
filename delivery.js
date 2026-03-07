@@ -31,6 +31,24 @@ request.onsuccess = function (e) {
     iniciarActualizador();
 };
 
+function refrescarColumnasManteniendoVista() {
+    const panel = document.getElementById("columnas");
+    const scrollVentanaX = window.scrollX;
+    const scrollVentanaY = window.scrollY;
+    const scrollPanelLeft = panel ? panel.scrollLeft : 0;
+    const scrollPanelTop = panel ? panel.scrollTop : 0;
+
+    mostrarColumnas(() => {
+        requestAnimationFrame(() => {
+            if (panel) {
+                panel.scrollLeft = scrollPanelLeft;
+                panel.scrollTop = scrollPanelTop;
+            }
+            window.scrollTo(scrollVentanaX, scrollVentanaY);
+        });
+    });
+}
+
 function obtenerIconoVehiculo(vehiculo) {
     return vehiculo === "auto" ? "🚗" : "🏍️";
 }
@@ -65,7 +83,7 @@ function crearDelivery() {
         document.getElementById("newDelivery").value = "";
         document.getElementById("newSueldo").value = "";
         document.getElementById("newVehiculo").value = "moto";
-        mostrarColumnas();
+        refrescarColumnasManteniendoVista();
     };
 };
 
@@ -107,11 +125,11 @@ function guardarEnvio(deliveryNombre, tipo) {
     tx.oncomplete = () => {
         document.getElementById(`pedido-${deliveryNombre}`).value = "";
         document.getElementById(`envio-${deliveryNombre}`).value = "";
-        mostrarColumnas();
+        refrescarColumnasManteniendoVista();
     };
 }
 
-function mostrarColumnas() {
+function mostrarColumnas(onRendered = null) {
     const cont = document.getElementById("columnas");
     cont.innerHTML = "";
 
@@ -119,6 +137,12 @@ function mostrarColumnas() {
 
     tx1.objectStore("deliveries").getAll().onsuccess = function (e) {
         const deliveries = e.target.result;
+        let pendientes = deliveries.length;
+
+        if (pendientes === 0) {
+            if (onRendered) onRendered();
+            return;
+        }
 
         deliveries.forEach((del, index) => {
             const vehiculo = del.vehiculo || "moto";
@@ -287,6 +311,11 @@ function mostrarColumnas() {
                 btnToggle.insertAdjacentElement("afterend", divEntregados);
 
                 actualizarMinutosAfuera();
+
+                pendientes -= 1;
+                if (pendientes === 0 && onRendered) {
+                    onRendered();
+                }
             };
         });
     };
@@ -490,7 +519,7 @@ function registrarAdelanto(nombre) {
                     store.put(deliveryEditado);
                 };
 
-                tx.oncomplete = () => mostrarColumnas();
+                tx.oncomplete = () => refrescarColumnasManteniendoVista();
             },
             {
                 placeholder: "Adelanto aqui",
@@ -526,7 +555,7 @@ function cambiarEstado(id, nuevoEstado) {
         store.put(envio);
     };
 
-    tx.oncomplete = () => mostrarColumnas();
+    tx.oncomplete = () => refrescarColumnasManteniendoVista();
 }
 
 function actualizarMinutosAfuera() {
@@ -553,7 +582,7 @@ function iniciarActualizador() {
 function borrarEnvio(id) {
     const tx = db.transaction("envios", "readwrite");
     tx.objectStore("envios").delete(id);
-    tx.oncomplete = () => mostrarColumnas();
+    tx.oncomplete = () => refrescarColumnasManteniendoVista();
 }
 
 function eliminarDelivery() {
@@ -578,7 +607,7 @@ function eliminarDelivery() {
 
             tx2.oncomplete = () => {
                 delete entregadosAbiertos[nombre];
-                mostrarColumnas();
+                refrescarColumnasManteniendoVista();
                 document.getElementById("newDelivery").value = "";
                 document.getElementById("newSueldo").value = "";
                 mostrarModal(`Delivery "${nombre}" eliminado.`);
@@ -636,7 +665,7 @@ function borrarTodo() {
         new Promise(res => tx2.oncomplete = res)
     ]).then(() => {
         Object.keys(entregadosAbiertos).forEach(key => delete entregadosAbiertos[key]);
-        mostrarColumnas();
+        refrescarColumnasManteniendoVista();
         mostrarModal("Todos los datos fueron eliminados.");
     });
 }
